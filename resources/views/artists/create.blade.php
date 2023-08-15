@@ -8,16 +8,16 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <form action="{{route('artistas.store')}}" method="post" enctype="multipart/form-data">
+                <form action="{{route('artists.store')}}" method="post" enctype="multipart/form-data">
                     @csrf
-                    <label for="">Nombre del Artista</label>
-                    <input type="text" name="nombre_artista" required>
-                    <label for="">Foto del Artista</label>
-                    <input type="file" name="foto_url" accept="image/*" id="file">
+                    <label for="">Nombre del artist</label>
+                    <input type="text" name="artist_name" required>
+                    <label for="">photo del artist</label>
+                    <input type="file" name="photo_url" accept="image/*" id="file">
                     <div class="text-right" id="preview" style="width: 100px; height: 100px;">
 
                     </div>
-                    @error('foto_url')
+                    @error('photo_url')
                     <span>Tipo de archivo no admitido</span>
                     @enderror
                     <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Enviar</button>

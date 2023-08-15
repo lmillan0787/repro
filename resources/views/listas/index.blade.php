@@ -7,10 +7,10 @@
 
 
     <div class="py-12">
-       <a href="{{route('lista1/create',$artistas->id)}}"> <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Nueva Cancion</button>
+       <a href="{{route('lista1/create',$artists->id)}}"> <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Nueva Cancion</button>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8"></a>
-            <img src="{{$artistas->foto_url}}" alt="" width="100px" height="100px" class="w-40 h-40">
-            <h4 class="text-xl"> {{$artistas->nombre_artista}}</h4>
+            <img src="{{$artists->photo_url}}" alt="" width="100px" height="100px" class="w-40 h-40">
+            <h4 class="text-xl"> {{$artists->artist_name}}</h4>
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
 
 

@@ -1,20 +1,17 @@
 <x-app-layout>
     <x-slot name="header">
+
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('Top') }}
         </h2>
     </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <ul>
-                    <li><a href="maiden.php" style="">Iron Maiden</a></li>
-                    <li><a href="kamelot.php" style=";">Kamelot</a></li>
-                    <li><a href="hinris.php" style=";">Hinris</a></li>
-                </ul>
-
-            </div>
-        </div>
-    </div>
+    <h1 class="text-center"><b>Latest Styles</b></h1>
+    @component('components.style-list', ['list' => $styles])
+    @endcomponent
+    <h1 class="text-center"><b>Latest Artist</b></h1>
+    @component('components.gallery', ['list' => $artists])
+    @endcomponent
+    <h1 class="text-center"><b>Latest Albums</b></h1>
+    @component('components.gallery', ['list' => $albums])
+    @endcomponent
 </x-app-layout>

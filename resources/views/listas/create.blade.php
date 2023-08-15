@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <form action="{{route('listas.store')}}" method="post" enctype="multipart/form-data">
                     @csrf
-                    <input type="text" name="artista_id" value="{{$id}}" hidden>
+                    <input type="text" name="artist_id" value="{{$id}}" hidden>
                     <label for="">Nombre de la canción</label>
                     <input type="text" name="nombre_cancion" required>
                     <label for="">Seleccione Canción</label>

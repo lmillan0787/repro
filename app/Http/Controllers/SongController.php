@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Artista;
+use App\Models\Song;
+use App\Models\Artist;
 use Illuminate\Http\Request;
-use App\Models\MusicaIndigena;
-use Illuminate\Support\Facades\Redirect;
+use App\Services\SongService;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Redirect;
 
-class MusicaIndigenaController extends Controller
+class SongController extends Controller
 {
+    protected $songService;
+
+    public function __construct(SongService $songService)
+    {
+        $this->songService = $songService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,12 +24,12 @@ class MusicaIndigenaController extends Controller
      */
     public function index(Request $request)
     {   //$id = $request->id;
-        $artistas = Artista::where('id',$request->id)->first();
-        //dd($artistas->nombre_artista);
+        $artists = Artist::where('id',$request->id)->first();
+        //dd($artists->artist_name);
 
-        $listas = MusicaIndigena::where('artista_id',$request->id)->get();
+        $listas = Song::where('artist_id',$request->id)->get();
         //dd($listas);
-        return view('listas.index',compact('listas','artistas'));
+        return view('listas.index',compact('listas','artists'));
     }
 
     /**
@@ -33,8 +40,6 @@ class MusicaIndigenaController extends Controller
     public function create(Request $request)
     {
         $id = $request->id;
-
-        //dd($id);
 
         return view('listas.create',compact('id'));
     }
@@ -47,9 +52,7 @@ class MusicaIndigenaController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request);
         $datosCancion = $request->except('_token');
-
 
          if ($request->hasFile('url')){
 
@@ -59,18 +62,15 @@ class MusicaIndigenaController extends Controller
 
         $url = Storage::url($datosCancion['url']);
 
-        //dd($url);
-
-
-        $cancion = MusicaIndigena::create([
-            'artista_id' => $request->artista_id,
+        $cancion = Song::create([
+            'artist_id' => $request->artist_id,
             'nombre_cancion' => $request->nombre_cancion,
             'url' => $url
         ]);
-            $id = $request->artista_id;
-        $artistas = Artista::where('id',$request->artista_id)->first();
+            $id = $request->artist_id;
+        $artists = artist::where('id',$request->artist_id)->first();
 
-        $listas = MusicaIndigena::where('artista_id',$id)->get();
+        $listas = Song::where('artist_id',$id)->get();
 
             return redirect()->route('lista1',['id'=> $id]);
 
@@ -80,21 +80,30 @@ class MusicaIndigenaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\MusicaIndigena  $musicaIndigena
+     * @param  \App\Models\Song  $Song
      * @return \Illuminate\Http\Response
      */
-    public function show(MusicaIndigena $musicaIndigena)
+    public function showByAlbum($albumId)
     {
-        //
+        $songs = $this->songService->getSongsByAlbum($albumId);
+        $type = 'Album';
+        return view('song.index', compact('songs','type'));
+    }
+
+    public function showByArtist($artistId)
+    {
+        $songs = $this->songService->getSongsByArtist($artistId);
+        $type = 'Artist';
+        return view('song.index', compact('songs','type'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\MusicaIndigena  $musicaIndigena
+     * @param  \App\Models\Song  $Song
      * @return \Illuminate\Http\Response
      */
-    public function edit(MusicaIndigena $musicaIndigena)
+    public function edit(Song $Song)
     {
         //
     }
@@ -103,10 +112,10 @@ class MusicaIndigenaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\MusicaIndigena  $musicaIndigena
+     * @param  \App\Models\Song  $Song
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MusicaIndigena $musicaIndigena)
+    public function update(Request $request, Song $Song)
     {
         //
     }
@@ -114,10 +123,10 @@ class MusicaIndigenaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\MusicaIndigena  $musicaIndigena
+     * @param  \App\Models\Song  $Song
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MusicaIndigena $musicaIndigena)
+    public function destroy(Song $Song)
     {
         //
     }

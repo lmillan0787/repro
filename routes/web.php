@@ -1,30 +1,23 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ArtistaController;
-use App\Http\Controllers\MusicaIndigenaController;
+use App\Http\Controllers\SongController;
+use App\Http\Controllers\ArtistController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MusicStyleController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+Route::get('/', [DashboardController::class, 'index'])->name('index');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', [DashboardController::class, 'index'] )->name('dashboard');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
-
-Route::resource('artistas',ArtistaController::class);
-Route::resource('listas',MusicaIndigenaController::class);
-Route::get('lista1/{id}', [App\Http\Controllers\MusicaIndigenaController::class, 'index'])->name('lista1');
-Route::get('lista1/{id}/create/', [App\Http\Controllers\MusicaIndigenaController::class, 'create'])->name('lista1/create');
+Route::resource('artists',ArtistController::class);
+Route::resource('listas',SongController::class);
+Route::get('albums/{id}', [App\Http\Controllers\AlbumController::class, 'show'])->name('albums.show');
+Route::get('songs/{id}', [App\Http\Controllers\SongController::class, 'index'])->name('songs');
+Route::get('songs/{id}', [App\Http\Controllers\SongController::class, 'index'])->name('songs');
+Route::get('songs-album/{id}', [App\Http\Controllers\SongController::class, 'showByAlbum'])->name('songs-album');
+Route::get('songs-artist/{id}', [App\Http\Controllers\SongController::class, 'showByArtist'])->name('songs-artist');
+Route::get('lista1/{id}/create/', [App\Http\Controllers\SongController::class, 'create'])->name('lista1/create');
+//Route::resource('music-styles', MusicStyleController::class);
+Route::get('music-styles/{id}', [MusicStyleController::class, 'index'])->name('music-styles.index');
 

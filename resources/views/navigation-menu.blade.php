@@ -12,11 +12,11 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                    <x-jet-nav-link href="{{ route('index') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('artistas.index') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Artistas') }}
+                    <x-jet-nav-link href="{{ route('artists.index') }}" :active="request()->routeIs('dashboard')">
+                        {{ __('Artists') }}
                     </x-jet-nav-link>
                 </div>
             </div>
@@ -74,6 +74,7 @@
 
                 <!-- Settings Dropdown -->
                 <div class="ml-3 relative">
+                    @auth
                     <x-jet-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
@@ -123,6 +124,13 @@
                             </form>
                         </x-slot>
                     </x-jet-dropdown>
+                    @else
+                    <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a>
+
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
+                    @endif
+                    @endauth
                 </div>
             </div>
 
@@ -147,8 +155,12 @@
         </div>
 
         <!-- Responsive Settings Options -->
+
+
+
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="flex items-center px-4">
+                @auth
                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                     <div class="flex-shrink-0 mr-3">
                         <img class="h-10 w-10 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
@@ -209,10 +221,12 @@
                     <div class="block px-4 py-2 text-xs text-gray-400">
                         {{ __('Switch Teams') }}
                     </div>
-
+                    {{-- @auth --}}
                     @foreach (Auth::user()->allTeams() as $team)
-                        <x-jet-switchable-team :team="$team" component="jet-responsive-nav-link" />
-                    @endforeach
+                    <x-jet-switchable-team :team="$team" component="jet-responsive-nav-link" />
+                @endforeach
+                    @endauth
+
                 @endif
             </div>
         </div>

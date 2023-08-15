@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Artista;
+use App\Models\Artist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class ArtistaController extends Controller
+class ArtistController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,8 @@ class ArtistaController extends Controller
      */
     public function index()
     {
-        $artistas = $this->consultaArtistas();
-        //dd($artistas);
-        return view('artistas.index',compact('artistas'));
+        $artists = $this->consultaArtistas();
+        return view('artists.index',compact('artists'));
     }
 
     /**
@@ -27,7 +26,7 @@ class ArtistaController extends Controller
      */
     public function create()
     {
-        return view('artistas.create');
+        return view('artists.create');
     }
 
     /**
@@ -39,39 +38,39 @@ class ArtistaController extends Controller
     public function store(Request $request)
     {
         // $datosArtista = $request->validate([
-        //     'nombre_artista' => 'required|max:255',
+        //     'artist_name' => 'required|max:255',
         // ]);
 
         $datosArtista = $request->except('_token');
 
         $request->validate([
 
-            'foto_url' => 'image'
+            'photo_url' => 'image'
 
         ]);
 
 
 
 
-         if ($request->hasFile('foto_url')){
+         if ($request->hasFile('photo_url')){
 
-            $datosArtista['foto_url'] = $request->file('foto_url')->store('public/fotosArtista');
+            $datosArtista['photo_url'] = $request->file('photo_url')->store('public/photosArtista');
 
         }
 
-        $url = Storage::url($datosArtista['foto_url']);
+        $url = Storage::url($datosArtista['photo_url']);
 
         //dd($url);
 
 
-        $artista = Artista::create([
+        $artist = Artist::create([
 
-            'nombre_artista' => $request->nombre_artista,
-            'foto_url' => $url
+            'artist_name' => $request->artist_name,
+            'photo_url' => $url
         ]);
 
-            $artistas = $this->consultaArtistas();
-        return view('artistas.index',compact('artistas'));
+            $artists = $this->consultaArtistas();
+        return view('artists.index',compact('artists'));
 
 
 
@@ -80,21 +79,21 @@ class ArtistaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Artista  $artista
+     * @param  \App\Models\artist  $artist
      * @return \Illuminate\Http\Response
      */
-    public function show(Artista $artista)
+    public function show(Artist $artist)
     {
-        //
+
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Artista  $artista
+     * @param  \App\Models\artist  $artist
      * @return \Illuminate\Http\Response
      */
-    public function edit(Artista $artista)
+    public function edit(Artist $artist)
     {
         //
     }
@@ -103,10 +102,10 @@ class ArtistaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Artista  $artista
+     * @param  \App\Models\artist  $artist
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Artista $artista)
+    public function update(Request $request, Artist $artist)
     {
         //
     }
@@ -114,17 +113,17 @@ class ArtistaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Artista  $artista
+     * @param  \App\Models\artist  $artist
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Artista $artista)
+    public function destroy(Artist $artist)
     {
         //
     }
 
     public function consultaArtistas(){
-       $artistas = Artista::all();
+       $artists = Artist::all();
 
-        return $artistas;
+        return $artists;
     }
 }

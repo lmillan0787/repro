@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMusicaIndigenasTable extends Migration
+class CreateSongsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,11 +15,12 @@ class CreateMusicaIndigenasTable extends Migration
     {
 
 
-        Schema::create('musica_indigenas', function (Blueprint $table) {
+        Schema::create('songs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('artista_id')->constrained('artistas');
-            $table->string('nombre_cancion');
-            $table->string('url');
+            $table->string('song_name');
+            $table->foreignId('artist_id')->constrained('artists');
+            $table->foreignId('album_id')->constrained('albums');
+            $table->string('song_url')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +33,6 @@ class CreateMusicaIndigenasTable extends Migration
     public function down()
     {
 
-        Schema::dropIfExists('musica_indigenas');
+        Schema::dropIfExists('songs');
     }
 }
